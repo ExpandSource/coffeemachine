@@ -13,4 +13,80 @@ public class CoffeeMachine {
     // 테스트를 통과했다면 스스로를 칭찬해주시고,
     // Git Commit & Push 를 해주세요.
     // 다시 내가 작성한 설계단계로 돌아가, 그 다음 부분을 구현하고, 테스트하고 Commit을 반복하면서 기능을 조금씩 완성해보세요.
+
+    // 필드
+    Water water;
+    Milk milk;
+    CoffeeBean coffeeBean;
+    Cup cup;
+    Money money;
+    // 생성자
+
+    public CoffeeMachine(Water water, Milk milk, CoffeeBean coffeeBean, Cup cup, Money money) {
+        this.water = water;
+        this.milk = milk;
+        this.coffeeBean = coffeeBean;
+        this.cup = cup;
+        this.money = money;
+    }
+
+    // 메소드
+    void 구매() {};
+    void 채우기() {};
+    void 가져가기() {};
+    void 작동() {
+        System.out.println("커피머신이 작동했습니다!");
+    };
+    void 재료출력() {};
+
+    // 실행 메소드
+    public static void main(String[] args) {
+        CoffeeMachine coffeeMachine = new CoffeeMachine(new Water(400),
+                new Milk(540), new CoffeeBean(120),
+                new Cup(9), new Money(50000));
+        coffeeMachine.작동();
+    }
+}
+abstract class Ingredient {
+    private int amount;
+
+    public Ingredient(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+}
+class Water extends Ingredient {
+    public Water(int amount) {
+        super(amount);
+    }
+}
+class Milk extends Ingredient {
+    public Milk(int amount) {
+        super(amount);
+    }
+}
+class CoffeeBean extends Ingredient {
+    public CoffeeBean(int amount) {
+        super(amount);
+    }
+}
+class Cup extends Ingredient {
+    public Cup(int amount) {
+        super(amount);
+    }
+}
+class Money extends Ingredient {
+    public Money(int amount) {
+        super(amount);
+    }
+}
+
+abstract class Coffee {
+    Water needWater;
+    Milk needMilk;
+    CoffeeBean needCoffeeBean;
+    Money price;
 }
