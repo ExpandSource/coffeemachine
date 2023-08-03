@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class CoffeeMachine {
     // 필요한 영단어
     // Coffee, Milk, Money, CoffeeBeans
@@ -20,6 +22,8 @@ public class CoffeeMachine {
     CoffeeBean coffeeBean;
     Cup cup;
     Money money;
+    Ingredient[] ingredients;
+
     // 생성자
 
     public CoffeeMachine(Water water, Milk milk, CoffeeBean coffeeBean, Cup cup, Money money) {
@@ -28,6 +32,7 @@ public class CoffeeMachine {
         this.coffeeBean = coffeeBean;
         this.cup = cup;
         this.money = money;
+        this.ingredients = new Ingredient[]{this.water, this.milk, this.coffeeBean, this.cup, this.money};
     }
 
     // 메소드
@@ -36,8 +41,54 @@ public class CoffeeMachine {
     void 가져가기() {};
     void 작동() {
         System.out.println("커피머신이 작동했습니다!");
+
+        재료출력();
+
+        boolean isRun = true;
+        while(isRun) {
+            int answer = 사용자입력받기("1. 구매 2. 채우기 3. 가져가기 > ");
+
+            switch (answer) {
+                case 1 -> buy();
+                case 2 -> fill();
+                case 3 -> take();
+            }
+
+        }
+    }
+
+    private void buy() {
+
+    }
+
+    private void fill() {
+
+    }
+
+    private void take() {
+        int 꺼낼돈 = 사용자입력받기("얼마를 꺼내시겠어요? > ");
+        try {
+            this.money.removeAmount(꺼낼돈);
+            System.out.println(꺼낼돈 + "만큼 꺼냈습니다.");
+            재료출력();
+        } catch (InsufficientException e) {
+            System.out.println("있는 돈보다 더 꺼내시면 안되요.");
+        }
+    }
+
+    int 사용자입력받기(String message) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(message);
+        int inputAnswer = Integer.parseInt(scanner.nextLine());
+        return inputAnswer;
+    }
+
+    ;
+    void 재료출력() {
+        for (Ingredient ingredient : ingredients) {
+            System.out.println(ingredient);
+        }
     };
-    void 재료출력() {};
 
     // 실행 메소드
     public static void main(String[] args) {
@@ -49,6 +100,8 @@ public class CoffeeMachine {
 }
 abstract class Ingredient {
     private int amount;
+    protected String name;
+    protected String unit;
 
     public Ingredient(int amount) {
         this.amount = amount;
@@ -57,36 +110,74 @@ abstract class Ingredient {
     public int getAmount() {
         return amount;
     }
+
+    void addAmount(int amount) {
+        this.amount += amount;
+    }
+
+    void removeAmount(int amount) throws InsufficientException {
+        if(this.amount - amount < 0) {
+            throw new InsufficientException(this.name +"이 부족합니다.");
+        }
+        this.amount -= amount;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " : " + this.getAmount() + " " + this.unit;
+    }
 }
 class Water extends Ingredient {
     public Water(int amount) {
         super(amount);
+        this.name = "물";
+        this.unit = "ml";
     }
 }
 class Milk extends Ingredient {
     public Milk(int amount) {
         super(amount);
+        this.name = "우유";
+        this.unit = "ml";
     }
 }
 class CoffeeBean extends Ingredient {
     public CoffeeBean(int amount) {
         super(amount);
+        this.name = "원두";
+        this.unit = "g";
     }
 }
 class Cup extends Ingredient {
     public Cup(int amount) {
         super(amount);
+        this.name = "종이컵";
+        this.unit = "개";
     }
 }
 class Money extends Ingredient {
     public Money(int amount) {
         super(amount);
+        this.name = "돈";
+        this.unit = "원";
     }
 }
 
 abstract class Coffee {
-    Water needWater;
-    Milk needMilk;
-    CoffeeBean needCoffeeBean;
-    Money price;
+    int needWater;
+    int needMilk;
+    int needCoffeeBean;
+    int price;
+}
+
+class latte extends Coffee {
+
+}
+
+class cappuccino extends Coffee {
+
+}
+
+class espresso extends Coffee {
+
 }
